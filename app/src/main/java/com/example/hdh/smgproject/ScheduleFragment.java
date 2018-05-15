@@ -2,6 +2,7 @@ package com.example.hdh.smgproject;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -56,16 +58,15 @@ public class ScheduleFragment extends Fragment {
         adapter = new SchedulePTListAdapter(getContext().getApplicationContext() , ptList , this);
         ptListView.setAdapter(adapter);
 
-        TextView userRemainPtNum = (TextView) getView().findViewById((R.id.userRemainPtNum));
-
-        userRemainPtNum.setText(UserMainActivity.userPTNum + "번");
-
+        //유저의 일정을 불러옴.
         new BackGroundTask().execute();
 
+        //데이터베이스에서 PT횟수 불러옴
+        new BackGroundTaskForPTnum().execute();
     }
 
     class BackGroundTask extends AsyncTask<Void, Void, String> {
-        String target , target1;
+        String target;
 
         @Override
         protected void onPreExecute() {
@@ -135,6 +136,72 @@ public class ScheduleFragment extends Fragment {
             }
 
             catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    class BackGroundTaskForPTnum extends AsyncTask<Void, Void, String> {
+        String target;
+        TextView userRemainPtNum;
+        @Override
+        protected void onPreExecute() {
+            try {
+                target = "http://kjg123kg.cafe24.com/UserSelect_SYG.php?userID=" + URLEncoder.encode(UserMainActivity.userID, "UTF-8");
+
+                userRemainPtNum = (TextView) getView().findViewById((R.id.userRemainPtNum));
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            try {
+                URL url = new URL(target);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                String temp;
+                StringBuilder stringBuilder = new StringBuilder();
+                while ((temp = bufferedReader.readLine()) != null) {
+                    stringBuilder.append(temp + "\n");
+                }
+                bufferedReader.close();
+                inputStream.close();
+                httpURLConnection.disconnect();
+
+                return stringBuilder.toString().trim();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        public void onProgressUpdate(Void... values) {
+            super.onProgressUpdate(values);
+        }
+
+        @Override
+        public void onPostExecute(String result) {
+            try {
+                JSONObject jsonObject = new JSONObject(result);
+                JSONArray jsonArray = jsonObject.getJSONArray("response");
+                int count = 0;
+                String userPT = "";
+                
+                while (count < jsonArray.length()) {
+                    JSONObject object = jsonArray.getJSONObject(count);
+                    userPT = object.getString("userPT");
+                    count++;
+                }
+
+                userRemainPtNum.setText(userPT + "번");
+                
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

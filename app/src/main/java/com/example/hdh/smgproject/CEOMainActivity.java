@@ -32,8 +32,8 @@ public class CEOMainActivity extends AppCompatActivity {
     private List<User> userList;
     private List<User> saveList;
 
-    static public String userID , userPassword , userName, userEmail ,userGender, userHeight, userWeight, userAge, userPT;
 
+    //userInfoChange의 변수를 받아오기 위함.
     UserInfoChange userInfoChange = new UserInfoChange();
 
     public CEOMainActivity() {
@@ -44,8 +44,9 @@ public class CEOMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ceomain);
 
+        //트레이너회원가입 버튼 초기화.
         TextView TRregisterButton = (TextView) findViewById(R.id.TRregisterButton);
-
+        //트레이너회원가입 버튼 클릭리스너
         TRregisterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -55,7 +56,10 @@ public class CEOMainActivity extends AppCompatActivity {
             }
         });
 
+        //리스트뷰 초기화
         listView = (ListView) findViewById(R.id.listView);
+
+
         userList = new ArrayList<User>();
         saveList = new ArrayList<User>();
         adapter = new UserListAdapter(getApplicationContext(), userList , this , saveList);
@@ -143,6 +147,7 @@ public class CEOMainActivity extends AppCompatActivity {
                 JSONArray jsonArray = jsonObject.getJSONArray("response");
 
                 int count = 0;
+                String userID , userPassword , userName, userEmail ,userGender, userHeight, userWeight, userAge, userPT;
 
 
 

@@ -26,7 +26,8 @@ import java.net.URLEncoder;
 
 public class MyinfoFragment extends Fragment {
 
-    public String userID, userPassword, userName, userEmail, userGender, userHeight, userWeight, userAge, userPT;
+    public String userID, userPassword, userName, userEmail, userGender, userHeight, userWeight, userAge;
+    static public String userPT;
 
     public MyinfoFragment() {
 
@@ -92,15 +93,17 @@ public class MyinfoFragment extends Fragment {
         protected void onPreExecute() {
             try {
                 target = "http://kjg123kg.cafe24.com/UserSelect_SYG.php?userID=" + URLEncoder.encode(UserMainActivity.userID, "UTF-8");
-                 guestIDText = (TextView) getView().findViewById(R.id.guestID);
-                 guestPasswordText = (TextView) getView().findViewById(R.id.guestPassword);
-                 guestNameText = (TextView) getView().findViewById(R.id.guestName);
-                 guestEmailText = (TextView) getView().findViewById(R.id.guestEmail);
+
+                guestIDText = (TextView) getView().findViewById(R.id.guestID);
+                guestPasswordText = (TextView) getView().findViewById(R.id.guestPassword);
+                guestNameText = (TextView) getView().findViewById(R.id.guestName);
+                guestEmailText = (TextView) getView().findViewById(R.id.guestEmail);
                 guestGenderText = (TextView) getView().findViewById(R.id.guestGender);
                 guestHeightText = (TextView) getView().findViewById(R.id.guestHeight);
                 guestWeightText = (TextView) getView().findViewById(R.id.guestWeight);
                 guestAgeText = (TextView) getView().findViewById(R.id.guestAge);
                 guestPTText = (TextView) getView().findViewById(R.id.guestPT);
+
             } catch (Exception e) {
                 e.printStackTrace();
             }

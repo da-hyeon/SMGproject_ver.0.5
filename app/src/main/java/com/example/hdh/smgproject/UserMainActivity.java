@@ -44,11 +44,8 @@ public class UserMainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     public  Bundle bundle;
     public static String userID;
-    public static String userPTNum;
     public Intent intent;
     public String getExtra;
-    public String guestID, guestPassword, guestName, guestEmail, guestGender, guestHeight, guestWeight, guestAge, guestPT;
-
     public static boolean userIDCheck = true;
 
 
@@ -72,12 +69,6 @@ public class UserMainActivity extends AppCompatActivity
             userID = intent.getStringExtra("userID");
             getExtra = intent.getStringExtra("userListofChange");
         }
-
-
-
-
-        //게스트 정보 받아오는부분.
-        getGuestData();
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -177,27 +168,36 @@ public class UserMainActivity extends AppCompatActivity
 
         FragmentManager manager = getSupportFragmentManager();
 
+        //내정보
         if (id == R.id.nav_myinfo) {
             LinearLayout l = (LinearLayout)findViewById(R.id.linearLayout);
             l.setVisibility(View.GONE);
             manager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             manager.beginTransaction().replace(R.id.content_user_main, new MyinfoFragment()).addToBackStack(null).commit();
-        } else if (id == R.id.nav_reservation) {
+        }
+        //예약하기
+        else if (id == R.id.nav_reservation) {
             LinearLayout l = (LinearLayout)findViewById(R.id.linearLayout);
             l.setVisibility(View.GONE);
             manager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             manager.beginTransaction().replace(R.id.content_user_main, new ReservationFragment()).addToBackStack(null).commit();
-        } else if (id == R.id.nav_schdulefix) {
+        }
+        //일정확인
+        else if (id == R.id.nav_schdulefix) {
             LinearLayout l = (LinearLayout)findViewById(R.id.linearLayout);
             l.setVisibility(View.GONE);
             manager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             manager.beginTransaction().replace(R.id.content_user_main, new ScheduleFragment()).addToBackStack(null).commit();
-        } else if (id == R.id.nav_feedback) {
+        }
+        //피드백
+        else if (id == R.id.nav_feedback) {
             LinearLayout l = (LinearLayout)findViewById(R.id.linearLayout);
             l.setVisibility(View.GONE);
             manager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             manager.beginTransaction().replace(R.id.content_user_main, new FeedbackFragment()).addToBackStack(null).commit();
-        } else if (id == R.id.Recommend) {
+        }
+        //추천운동
+        else if (id == R.id.Recommend) {
             LinearLayout l = (LinearLayout)findViewById(R.id.linearLayout);
             l.setVisibility(View.GONE);
             manager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
@@ -207,50 +207,6 @@ public class UserMainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    public void getGuestData(){
-        try {
-            JSONObject jsonObject;
-            if(userIDCheck) {
-                jsonObject = new JSONObject(intent.getStringExtra("userList"));
-            } else{
-                jsonObject = new JSONObject(intent.getStringExtra("userListofChange"));
-            }
-            JSONArray jsonArray = jsonObject.getJSONArray("response");
-
-            int count = 0;
-
-
-
-            while (count < jsonArray.length()) {
-                JSONObject object = jsonArray.getJSONObject(count);
-
-                guestID = object.getString("userID");
-                guestPassword = object.getString("userPassword");
-                guestName = object.getString("userName");
-                guestEmail = object.getString("userEmail");
-                guestGender = object.getString("userGender");
-                guestHeight = object.getString("userHeight");
-                guestWeight = object.getString("userWeight");
-                guestAge = object.getString("userAge") + "세";
-                guestPT = object.getString("userPT");
-
-                if (guestName.equals("")) {
-                    guestName = "정보없음";
-                }
-                if (guestGender.equals("")) {
-                    guestGender = "정보없음";
-                }
-                if (guestAge.equals("세")) {
-                    guestAge = "정보없음";
-                }
-                count++;
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
 }
