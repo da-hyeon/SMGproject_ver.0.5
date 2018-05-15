@@ -1,7 +1,8 @@
 package com.example.hdh.smgproject;
 
 public class User {
-    String userID , userPassword , userName, userEmail ,userGender, userHeight, userWeight, userAge, userPT;
+    String userID , userPassword , userName, userEmail ,userGender, userHeight, userWeight, userAge ;
+    int userPT;
 
 
     public User(String userID, String userPassword, String userName, String userGender , String userAge) {
@@ -12,7 +13,7 @@ public class User {
         this.userAge = userAge;
     }
 
-    public User(String userID , String userPassword , String userName, String userEmail , String userGender, String userHeight,String userWeight,String userAge, String userPT){
+    public User(String userID , String userPassword , String userName, String userEmail , String userGender, String userHeight,String userWeight,String userAge, int userPT){
         this.userID = userID;
         this.userPassword = userPassword;
         this.userName = userName;
@@ -91,11 +92,11 @@ public class User {
         this.userWeight = userWeight;
     }
 
-    public String getUserPT() {
+    public int getUserPT() {
         return userPT;
     }
 
-    public void setUserPT(String userPT) {
+    public void setUserPT(int userPT) {
         this.userPT = userPT;
     }
 }

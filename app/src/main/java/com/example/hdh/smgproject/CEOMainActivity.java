@@ -147,7 +147,8 @@ public class CEOMainActivity extends AppCompatActivity {
                 JSONArray jsonArray = jsonObject.getJSONArray("response");
 
                 int count = 0;
-                String userID , userPassword , userName, userEmail ,userGender, userHeight, userWeight, userAge, userPT;
+                String userID , userPassword , userName, userEmail ,userGender, userHeight, userWeight, userAge ;
+                int userPT;
 
 
 
@@ -162,7 +163,7 @@ public class CEOMainActivity extends AppCompatActivity {
                     userHeight = object.getString("userHeight");
                     userWeight  = object.getString("userWeight");
                     userAge = object.getString("userAge") + "세";
-                    userPT = object.getString("userPT");
+                    userPT = object.getInt("userPT");
 
                     if (userName.equals("")){
                         userName = "정보없음";

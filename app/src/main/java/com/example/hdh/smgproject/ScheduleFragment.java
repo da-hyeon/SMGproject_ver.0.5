@@ -58,11 +58,12 @@ public class ScheduleFragment extends Fragment {
         adapter = new SchedulePTListAdapter(getContext().getApplicationContext() , ptList , this);
         ptListView.setAdapter(adapter);
 
+        //데이터베이스에서 PT횟수 불러옴
+        new BackGroundTaskForPTnum().execute();
         //유저의 일정을 불러옴.
         new BackGroundTask().execute();
 
-        //데이터베이스에서 PT횟수 불러옴
-        new BackGroundTaskForPTnum().execute();
+
     }
 
     class BackGroundTask extends AsyncTask<Void, Void, String> {
@@ -141,6 +142,8 @@ public class ScheduleFragment extends Fragment {
         }
     }
 
+
+    //데이터베이스에서 user의 pt횟수 받아오는 BackGroundTask
     class BackGroundTaskForPTnum extends AsyncTask<Void, Void, String> {
         String target;
         TextView userRemainPtNum;
@@ -191,11 +194,11 @@ public class ScheduleFragment extends Fragment {
                 JSONObject jsonObject = new JSONObject(result);
                 JSONArray jsonArray = jsonObject.getJSONArray("response");
                 int count = 0;
-                String userPT = "";
+                int userPT = 0;
                 
                 while (count < jsonArray.length()) {
                     JSONObject object = jsonArray.getJSONObject(count);
-                    userPT = object.getString("userPT");
+                    userPT = object.getInt("userPT");
                     count++;
                 }
 

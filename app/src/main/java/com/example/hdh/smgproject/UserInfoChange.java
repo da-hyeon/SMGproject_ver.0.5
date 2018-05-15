@@ -59,7 +59,7 @@ public class UserInfoChange extends AppCompatActivity {
         String getUserHeight = intent.getStringExtra("userHeight");
         String getUserWeight = intent.getStringExtra("userWeight");
         String getUserAge = intent.getStringExtra("userAge");
-        String getUserPTNum = intent.getStringExtra("userPT");
+        int getUserPTNum = intent.getIntExtra("userPT" , 0);
 
         final EditText idText = (EditText) findViewById(R.id.idText);
         final EditText passwordText = (EditText) findViewById(R.id.passwordText);
@@ -107,7 +107,7 @@ public class UserInfoChange extends AppCompatActivity {
         heightText.setText(getUserHeight);
         weightText.setText(getUserWeight);
         ageText.setText(getUserAge.substring(0, getUserAge.length()-1));
-        ptNumEdit.setText(getUserPTNum);
+        ptNumEdit.setText(String.valueOf(getUserPTNum));
 
         Button changeButton = (Button) findViewById(R.id.changeButton);
         changeButton.setOnClickListener(new View.OnClickListener() {
@@ -120,7 +120,7 @@ public class UserInfoChange extends AppCompatActivity {
                 String userHeight = heightText.getText().toString();
                 String userWeight = weightText.getText().toString();
                 String userAge = ageText.getText().toString();
-                String userPTNum = ptNumEdit.getText().toString();
+                int userPTNum = Integer.parseInt(ptNumEdit.getText().toString());
 
                 if(userPassword.equals("") ||
                         userName.equals("") ||
@@ -139,16 +139,16 @@ public class UserInfoChange extends AppCompatActivity {
                 }
 
 
-                if(adminCheck) {
-                    if (userPTNum.equals("")) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(UserInfoChange.this);
-                        builder.setMessage("PTcount에 정보를 입력해주세요.")
-                                .setNegativeButton("확인", null)
-                                .create();
-                        builder.show();
-                        return;
-                    }
-                }
+//                if(adminCheck) {
+//                    if ( userPTNum.equals("") ) {
+//                        AlertDialog.Builder builder = new AlertDialog.Builder(UserInfoChange.this);
+//                        builder.setMessage("PTcount에 정보를 입력해주세요.")
+//                                .setNegativeButton("확인", null)
+//                                .create();
+//                        builder.show();
+//                        return;
+//                    }
+//                }
 
 
                 //응답받기

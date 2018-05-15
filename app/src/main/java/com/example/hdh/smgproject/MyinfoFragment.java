@@ -27,7 +27,7 @@ import java.net.URLEncoder;
 public class MyinfoFragment extends Fragment {
 
     public String userID, userPassword, userName, userEmail, userGender, userHeight, userWeight, userAge;
-    static public String userPT;
+    static public int userPT;
 
     public MyinfoFragment() {
 
@@ -155,7 +155,7 @@ public class MyinfoFragment extends Fragment {
                     userHeight = object.getString("userHeight");
                     userWeight = object.getString("userWeight");
                     userAge = object.getString("userAge") + "세";
-                    userPT = object.getString("userPT");
+                    userPT = object.getInt("userPT");
                     count++;
                 }
 
@@ -193,8 +193,4 @@ public class MyinfoFragment extends Fragment {
             }
         }
     }
-
-//    void MyInfo(String userID, String userPassword, String userName, String userEmail, String userGender, String userHeight, String userWeight, String userAge, String userPT){
-//        St
-//    }
 }

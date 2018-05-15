@@ -24,10 +24,10 @@ public class UserInfoChangeRequest extends StringRequest{
         parameters.put("userWeight" , userWeight);
         parameters.put("userAge" , userAge);
         parameters.put("userValue" , "b");
-    }
+}
 
     //admin으로 접속했을때
-    public UserInfoChangeRequest(String userID , String userPassword, String userName, String userEmail, String userGender, String userHeight, String userWeight, String userAge ,String userPT,  Response.Listener<String> listener){
+    public UserInfoChangeRequest(String userID , String userPassword, String userName, String userEmail, String userGender, String userHeight, String userWeight, String userAge ,int userPT,  Response.Listener<String> listener){
         super(Method.POST , URL , listener , null); //해당 URL의 parameters들을 POST방식으로 해당 요청을 숨겨서 보여주어라
         parameters = new HashMap<>();
         parameters.put("userID" , userID);
@@ -38,7 +38,7 @@ public class UserInfoChangeRequest extends StringRequest{
         parameters.put("userHeight" , userHeight);
         parameters.put("userWeight" , userWeight);
         parameters.put("userAge" , userAge);
-        parameters.put("userPT" , userPT);
+        parameters.put("userPT" , String.valueOf(userPT));
         parameters.put("userValue" , "a");
     }
     @Override
