@@ -31,7 +31,7 @@ public class PTListAdapter extends BaseAdapter {
 
     private boolean validate = false;   //사용할수 있는 회원 아이디인지 검사하는 변수
 
-    public PTListAdapter(Context context , List<PT> ptList , Fragment parent){
+    public PTListAdapter(Context context, List<PT> ptList, Fragment parent) {
         this.context = context;
         this.ptList = ptList;
         this.parent = parent;
@@ -54,7 +54,7 @@ public class PTListAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int i, View convertView, ViewGroup viewGroup) {
-        View v = View.inflate(context, R.layout.pt , null);
+        View v = View.inflate(context, R.layout.pt, null);
         TextView ptYearText = (TextView) v.findViewById(R.id.ptYearText);
         TextView ptMonthText = (TextView) v.findViewById(R.id.ptMonthText);
         TextView ptDayText = (TextView) v.findViewById(R.id.ptDayText);
@@ -69,6 +69,7 @@ public class PTListAdapter extends BaseAdapter {
         ptTrainerText.setText("트레이너 - " + ptList.get(i).getPtTrainer());
         ptIDText.setText("ptID : " + ptList.get(i).getPtID());
 
+
         v.setTag(ptList.get(i).getPtID());
 
         final Button addButton = (Button) v.findViewById(R.id.addButton);
@@ -77,65 +78,86 @@ public class PTListAdapter extends BaseAdapter {
             public void onClick(View v) {
                 String userID = UserMainActivity.userID;
 
-                Response.Listener<String> responseListener = new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject jsonResponse = new JSONObject(response);
-                            boolean success = jsonResponse.getBoolean("success");
-                            if(success){
+                if (ReservationFragment.userPT > 0) {
 
-                                AlertDialog.Builder builder = new AlertDialog.Builder(parent.getActivity());
-                                builder.setMessage("정말로 신청하시겠습니까?");
-                                builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        AlertDialog.Builder builder = new AlertDialog.Builder(parent.getActivity());
-                                        AlertDialog dialog1 = builder.setMessage("PT가 신청되었습니다.")
-                                                .setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        FragmentTransaction ft = (parent.getFragmentManager()).beginTransaction();
-                                                        ft.detach(parent)
-                                                                .attach(parent)
-                                                                .commit();
-//                                                        int a = Integer.parseInt(UserMainActivity.guestPT);
-//                                                        a--;
-//                                                        UserMainActivity.guestPT = String.valueOf(a);
-                                                    }
-                                                })
-                                                .create();
-                                        dialog1.show();
-                                    }
-                                });
-                                builder.setNegativeButton("아니오" , null);
-                                builder.create();
-                                builder.show();
+                    Response.Listener<String> responseListener = new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+                                JSONObject jsonResponse = new JSONObject(response);
+                                boolean success = jsonResponse.getBoolean("success");
+                                if (success) {
+
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(parent.getActivity());
+                                    builder.setTitle("PT횟수가 차감됩니다.");
+                                    builder.setMessage("정말로 신청하시겠습니까?");
+                                    builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            AlertDialog.Builder builder = new AlertDialog.Builder(parent.getActivity());
+                                            AlertDialog dialog1 = builder.setMessage("PT가 신청되었습니다.")
+                                                    .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int which) {
+
+                                                            Response.Listener<String> responseListenerOfPTNum = new Response.Listener<String>() {
+
+                                                                @Override
+                                                                public void onResponse(String response) {
+                                                                    try {
+                                                                        JSONObject jsonResponse = new JSONObject(response);
+                                                                        boolean success = jsonResponse.getBoolean("success");
+                                                                        if (success) {
+
+                                                                        }
+                                                                    } catch (Exception e) {
+                                                                        e.printStackTrace();
+                                                                    }
+                                                                }
+                                                            };
+                                                            PTNumUpdateRequest ptNumUpdateRequest = new PTNumUpdateRequest(UserMainActivity.userID, ReservationFragment.userPT - 1, responseListenerOfPTNum);
+                                                            RequestQueue queue = Volley.newRequestQueue(parent.getActivity());
+                                                            queue.add(ptNumUpdateRequest);
+                                                            FragmentTransaction ft = (parent.getFragmentManager()).beginTransaction();
+                                                            ft.detach(parent)
+                                                                    .attach(parent)
+                                                                    .commit();
+                                                        }
+                                                    })
+                                                    .create();
+                                            dialog1.show();
+                                        }
+                                    });
+                                    builder.setNegativeButton("아니오", null);
+                                    builder.create();
+                                    builder.show();
+                                } else {
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(parent.getActivity());
+                                    AlertDialog dialog = builder.setMessage("PT신청에 실패하였습니다.")
+                                            .setNegativeButton("확인", null)
+                                            .create();
+                                    dialog.show();
+
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
 
-
-
-
-                            else{
-                                AlertDialog.Builder builder = new AlertDialog.Builder(parent.getActivity());
-                                AlertDialog dialog = builder.setMessage("PT신청에 실패하였습니다.")
-                                        .setNegativeButton("확인", null)
-                                        .create();
-                                dialog.show();
-                            }
                         }
-                        catch (Exception e){
-                            e.printStackTrace();
-                        }
-                    }
-                };
+                    };
                     PTAddRequest ptAddRequest = new PTAddRequest(userID, ptList.get(i).getPtID() + "", responseListener);
                     RequestQueue queue = Volley.newRequestQueue(parent.getActivity());
                     queue.add(ptAddRequest);
+                } else{
+                    AlertDialog.Builder builder = new AlertDialog.Builder(parent.getActivity());
+                    AlertDialog dialog = builder.setMessage("PT횟수가 부족합니다.")
+                            .setNegativeButton("확인", null)
+                            .create();
+                    dialog.show();
                 }
+            }
         });
+
         return v;
     }
-
-
 }

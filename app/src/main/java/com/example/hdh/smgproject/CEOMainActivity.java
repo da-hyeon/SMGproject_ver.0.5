@@ -90,8 +90,6 @@ public class CEOMainActivity extends AppCompatActivity {
 
             }
         });
-
-
     }
 
     public void searchUser(String search) {
@@ -181,8 +179,6 @@ public class CEOMainActivity extends AppCompatActivity {
                         saveList.add(user);
                     }
                     count++;
-
-
                 }
             } catch (Exception e){
                 e.printStackTrace();

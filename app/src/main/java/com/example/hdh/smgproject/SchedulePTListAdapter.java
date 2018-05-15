@@ -24,8 +24,7 @@ public class SchedulePTListAdapter extends BaseAdapter {
     private Context context;
     private List<PT> ptList;
     private Fragment parent;
-
-    private boolean validate = false;   //사용할수 있는 회원 아이디인지 검사하는 변수
+    public int PTNum;
 
     public SchedulePTListAdapter(Context context , List<PT> ptList , Fragment parent){
         this.context = context;
@@ -66,6 +65,90 @@ public class SchedulePTListAdapter extends BaseAdapter {
         ptIDText.setText("ptID : " + ptList.get(i).getPtID());
 
         v.setTag(ptList.get(i).getPtID());
+
+        Button deleteButtonofSchedule = (Button) v.findViewById(R.id.deleteButtonofSchedule);
+        deleteButtonofSchedule.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String userID = UserMainActivity.userID;
+
+                Response.Listener<String> responseListener = new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonResponse = new JSONObject(response);
+                            boolean success = jsonResponse.getBoolean("success");
+                            if(success){
+
+                                AlertDialog.Builder builder = new AlertDialog.Builder(parent.getActivity());
+                                builder.setTitle("주의!!");
+                                builder.setMessage("정말로 PT를 취소하시겠습니까?");
+                                builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(parent.getActivity());
+                                        AlertDialog dialog1 = builder.setMessage("PT가 취소되었습니다.")
+                                                .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+
+                                                        Response.Listener<String> responseListenerOfPTNum = new Response.Listener<String>() {
+
+                                                            @Override
+                                                            public void onResponse(String response) {
+                                                                try{
+                                                                    JSONObject jsonResponse = new JSONObject(response);
+                                                                    boolean success = jsonResponse.getBoolean("success");
+                                                                    if(success){
+                                                                        FragmentTransaction ft = (parent.getFragmentManager()).beginTransaction();
+                                                                        ft.detach(parent)
+                                                                                .attach(parent)
+                                                                                .commit();
+                                                                    }
+                                                                }catch (Exception e){
+                                                                    e.printStackTrace();
+                                                                }
+                                                            }
+                                                        };
+                                                        PTNumUpdateRequest ptNumUpdateRequest = new PTNumUpdateRequest(UserMainActivity.userID, ScheduleFragment.userPT + 1 , responseListenerOfPTNum);
+                                                        RequestQueue queue = Volley.newRequestQueue(parent.getActivity());
+                                                        queue.add(ptNumUpdateRequest);
+
+                                                        ptList.remove(i);
+                                                        notifyDataSetChanged();
+                                                    }
+                                                })
+                                                .create();
+                                        dialog1.show();
+                                    }
+                                });
+                                builder.setNegativeButton("아니오" , null);
+                                builder.create();
+                                builder.show();
+                            }
+
+
+
+
+                            else{
+                                AlertDialog.Builder builder = new AlertDialog.Builder(parent.getActivity());
+                                AlertDialog dialog = builder.setMessage("PT취소에 실패하였습니다.")
+                                        .setNegativeButton("다시 시도", null)
+                                        .create();
+                                dialog.show();
+                            }
+                        }
+                        catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+                };
+                ScheduleDeleteRequest scheduleDeleteRequest = new ScheduleDeleteRequest(userID , ptList.get(i).getPtID() , responseListener);
+
+                RequestQueue queue = Volley.newRequestQueue(parent.getActivity());
+                queue.add(scheduleDeleteRequest);
+            }
+        });
 
         return v;
     }

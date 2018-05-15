@@ -48,7 +48,7 @@ public class ScheduleFragment extends Fragment {
     private ListView ptListView;
     private SchedulePTListAdapter adapter;
     private List<PT> ptList;
-    int totalCredit = 0;
+    static int userPT = 0;
 
     @Override
     public void onActivityCreated(Bundle b){
@@ -194,8 +194,7 @@ public class ScheduleFragment extends Fragment {
                 JSONObject jsonObject = new JSONObject(result);
                 JSONArray jsonArray = jsonObject.getJSONArray("response");
                 int count = 0;
-                int userPT = 0;
-                
+
                 while (count < jsonArray.length()) {
                     JSONObject object = jsonArray.getJSONObject(count);
                     userPT = object.getInt("userPT");

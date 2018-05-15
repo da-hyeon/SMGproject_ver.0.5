@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -108,6 +109,8 @@ public class ReservationFragment extends Fragment {
 
     private int count = 0;
 
+    static int userPT = 0;
+
     //처리를 하는 부분.
     @Override
     public void onActivityCreated(Bundle b) {
@@ -137,6 +140,7 @@ public class ReservationFragment extends Fragment {
         ptListView.setAdapter(ptListAdapter);
 
         new BackGroundTask().execute();
+        new BackGroundTaskForPTnum().execute();
 
         Button searchButton = (Button) getView().findViewById(R.id.searchButton);
 
@@ -280,6 +284,71 @@ public class ReservationFragment extends Fragment {
                     builder.show();
                 }
                 ptListAdapter.notifyDataSetChanged();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    //데이터베이스에서 user의 pt횟수 받아오는 BackGroundTask
+    class BackGroundTaskForPTnum extends AsyncTask<Void, Void, String> {
+        String target;
+        TextView userRemainPtNumOfReservation;
+        @Override
+        protected void onPreExecute() {
+            try {
+                target = "http://kjg123kg.cafe24.com/UserSelect_SYG.php?userID=" + URLEncoder.encode(UserMainActivity.userID, "UTF-8");
+
+                userRemainPtNumOfReservation = (TextView) getView().findViewById((R.id.userRemainPtNumOfReservation));
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            try {
+                URL url = new URL(target);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                String temp;
+                StringBuilder stringBuilder = new StringBuilder();
+                while ((temp = bufferedReader.readLine()) != null) {
+                    stringBuilder.append(temp + "\n");
+                }
+                bufferedReader.close();
+                inputStream.close();
+                httpURLConnection.disconnect();
+
+                return stringBuilder.toString().trim();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        public void onProgressUpdate(Void... values) {
+            super.onProgressUpdate(values);
+        }
+
+        @Override
+        public void onPostExecute(String result) {
+            try {
+                JSONObject jsonObject = new JSONObject(result);
+                JSONArray jsonArray = jsonObject.getJSONArray("response");
+                int count = 0;
+                while (count < jsonArray.length()) {
+                    JSONObject object = jsonArray.getJSONObject(count);
+                    userPT = object.getInt("userPT");
+                    count++;
+                }
+
+                userRemainPtNumOfReservation.setText(userPT + "번");
+
             } catch (Exception e) {
                 e.printStackTrace();
             }

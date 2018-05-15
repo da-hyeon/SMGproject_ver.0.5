@@ -38,6 +38,7 @@ public class UserInfoChangeRequest extends StringRequest{
         parameters.put("userHeight" , userHeight);
         parameters.put("userWeight" , userWeight);
         parameters.put("userAge" , userAge);
+        //Int형으로 전달하지 못하기 때문에 String형으로 형변환.
         parameters.put("userPT" , String.valueOf(userPT));
         parameters.put("userValue" , "a");
     }
