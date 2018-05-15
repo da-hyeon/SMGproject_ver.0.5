@@ -47,12 +47,8 @@ public class UserMainActivity extends AppCompatActivity
     public static String userPTNum;
     public Intent intent;
     public String getExtra;
-    public static String tempguestID, tempguestPassword, tempguestName, tempguestEmail, tempguestGender, tempguestHeight, tempguestWeight, tempguestAge, tempguestPT;
-    public static String guestID, guestPassword, guestName, guestEmail, guestGender, guestHeight, guestWeight, guestAge, guestPT;
-    private ListView ptListView;
-    private PTListAdapter ptListAdapter;
-    private List<PT> ptList;
-    static Fragment fragment = new MyinfoFragment();
+    public String guestID, guestPassword, guestName, guestEmail, guestGender, guestHeight, guestWeight, guestAge, guestPT;
+
     public static boolean userIDCheck = true;
 
     @Override
@@ -105,7 +101,7 @@ public class UserMainActivity extends AppCompatActivity
         View nav_header_view = navigationView.getHeaderView(0);
 
         TextView nav_header_id_text = (TextView) nav_header_view.findViewById(R.id.idTextfromNav);
-        nav_header_id_text.setText(tempguestID + "님 안녕하세요.");
+        nav_header_id_text.setText(userID + "님 안녕하세요.");
 
         ImageView logoImageView = (ImageView) nav_header_view.findViewById(R.id.logoImageView);
 
@@ -247,20 +243,6 @@ public class UserMainActivity extends AppCompatActivity
                 }
                 if (guestAge.equals("세")) {
                     guestAge = "정보없음";
-                }
-
-                if (userID.equals(guestID)) {
-                    tempguestID = guestID;
-                    tempguestPassword = guestPassword;
-                    tempguestName = guestName;
-                    tempguestEmail = guestEmail;
-                    tempguestGender = guestGender;
-                    tempguestHeight = guestHeight;
-                    tempguestWeight = guestWeight;
-                    tempguestAge = guestAge;
-                    tempguestPT = guestPT;
-
-                    userPTNum = guestPT;
                 }
                 count++;
             }

@@ -28,9 +28,6 @@ public class MyinfoFragment extends Fragment {
 
     public String userID, userPassword, userName, userEmail, userGender, userHeight, userWeight, userAge, userPT;
 
-    final UserMainActivity userMainActivity = new UserMainActivity();
-
-
     public MyinfoFragment() {
 
     }
@@ -156,6 +153,7 @@ public class MyinfoFragment extends Fragment {
                     userWeight = object.getString("userWeight");
                     userAge = object.getString("userAge") + "세";
                     userPT = object.getString("userPT");
+                    count++;
                 }
 
 
