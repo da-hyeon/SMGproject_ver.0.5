@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="year">
+        <item>2018년</item>
+        <item>2019년</item>
+    </string-array>
+
+    <string-array name="month">
+        <item>1월</item>
+        <item>2월</item>
+        <item>3월</item>
+        <item>4월</item>
+        <item>5월</item>
+        <item>6월</item>
+        <item>7월</item>
+        <item>8월</item>
+        <item>9월</item>
+        <item>10월</item>
+        <item>11월</item>
+        <item>12월</item>
+    </string-array>
+
+    <string-array name="day">
+        <item>1일</item>
+        <item>2일</item>
+        <item>3일</item>
+        <item>4일</item>
+        <item>5일</item>
+        <item>6일</item>
+        <item>7일</item>
+        <item>8일</item>
+        <item>9일</item>
+        <item>10일</item>
+        <item>11일</item>
+        <item>12일</item>
+        <item>13일</item>
+        <item>14일</item>
+        <item>15일</item>
+        <item>16일</item>
+        <item>17일</item>
+        <item>18일</item>
+        <item>19일</item>
+        <item>20일</item>
+        <item>21일</item>
+        <item>22일</item>
+        <item>23일</item>
+        <item>24일</item>
+        <item>25일</item>
+        <item>26일</item>
+        <item>27일</item>
+        <item>28일</item>
+        <item>29일</item>
+        <item>30일</item>
+        <item>31일</item>
+    </string-array>
+
+    <string-array name="trainer">
+        <item>무관</item>
+        <item>황다현</item>
+        <item>이재민</item>
+        <item>김종범</item>
+        <item>임성민</item>
+        <item>한상국</item>
+        <item>김연형</item>
+    </string-array>
+
+    <string-array name="time">
+        <item>무관</item>
+        <item>09:00~10:00</item>
+        <item>10:00~11:00</item>
+        <item>11:00~12:00</item>
+        <item>12:00~13:00</item>
+        <item>13:00~14:00</item>
+        <item>14:00~15:00</item>
+        <item>15:00~16:00</item>
+        <item>16:00~17:00</item>
+        <item>17:00~18:00</item>
+        <item>18:00~19:00</item>
+        <item>19:00~20:00</item>
+        <item>20:00~21:00</item>
+        <item>21:00~22:00</item>
+    </string-array>
+</resources>

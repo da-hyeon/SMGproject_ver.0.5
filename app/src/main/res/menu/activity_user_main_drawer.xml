@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_myinfo"
+            android:icon="@drawable/ic_info_black_24dp"
+            android:title="내 정보" />
+        <item
+            android:id="@+id/nav_reservation"
+            android:icon="@drawable/ic_event_note_black_24dp"
+            android:title="예약하기" />
+        <item
+            android:id="@+id/nav_schdulefix"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="일정관리" />
+        <item
+            android:id="@+id/nav_feedback"
+            android:icon="@drawable/ic_feedback_black_24dp"
+            android:title="피드백" />
+
+    </group>
+
+    <item android:title="Recommendation">
+        <menu>
+            <item
+                android:id="@+id/Recommend"
+                android:icon="@drawable/ic_menu_send"
+                android:title="추천운동" />
+        </menu>
+    </item>
+
+</menu>

@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp"
+    android:background="#ffffff">
+
+    <LinearLayout
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:layout_marginRight="10dp"
+        android:layout_gravity="center"
+        android:gravity="center">
+
+
+        <Button
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:text="정보변경"
+            android:textSize="30dp"
+            android:textColor="#000000"
+            android:background="#00a7f5"
+            android:id="@+id/userChangeOfadmin"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+    
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="아이디 : "
+                android:textSize="20dp"
+                android:textColor="#00a7f5"/>
+    
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/userID"
+                android:text="아이디"
+                android:textSize="20dp"
+                android:textColor="#00a7f5"/>
+    
+        </LinearLayout>
+    
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+    
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="비밀번호 : "
+                android:textSize="15dp"
+                android:textColor="#f92a3f"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/userPassword"
+                android:text="비밀번호"
+                android:textSize="15dp"
+                android:textColor="#f92a3f"/>
+        </LinearLayout>
+    
+    
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+    
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="이름 : "
+                android:textSize="16dp"
+                android:textColor="#000"/>
+    
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/userName"
+                android:text="이름"
+                android:textSize="16dp"
+                android:textColor="#000"/>
+        </LinearLayout>
+    
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+    
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="성별 : "
+                android:textSize="16dp"
+                android:textColor="#f12fff"/>
+    
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/userGender"
+                android:text="성별"
+                android:textSize="16dp"
+                android:textColor="#f12fff"/>
+    
+        </LinearLayout>
+    
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+    
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="나이 : "
+                android:textSize="20dp"
+                android:textColor="#00a745"/>
+    
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/userAge"
+                android:text="나이"
+                android:textSize="20dp"
+                android:textColor="#00a745"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="60dp"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+
+        <Button
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:text="계정삭제"
+            android:textSize="30dp"
+            android:textColor="#000000"
+            android:background="#FF0000"
+            android:id="@+id/deleteButton"/>
+    </LinearLayout>
+</LinearLayout>
