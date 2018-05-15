@@ -51,6 +51,7 @@ public class UserMainActivity extends AppCompatActivity
 
     public static boolean userIDCheck = true;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
