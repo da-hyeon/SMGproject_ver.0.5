@@ -49,8 +49,6 @@ public class MyinfoFragment extends Fragment {
         super.onActivityCreated(b);
 
         new BackGroundTask().execute();
-
-
     }
 
     @Override
@@ -76,7 +74,6 @@ public class MyinfoFragment extends Fragment {
 
         return v;
     }
-
 
     class BackGroundTask extends AsyncTask<Void, Void, String> {
         String target;
@@ -159,7 +156,6 @@ public class MyinfoFragment extends Fragment {
                     userPT = object.getInt("userPT");
                     count++;
                 }
-
 
                 guestIDText.setText("아이디 : " + userID);
                 guestPasswordText.setText("비밀번호 : " + userPassword);
