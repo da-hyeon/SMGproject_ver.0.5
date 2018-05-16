@@ -108,7 +108,10 @@ public class PTListAdapter extends BaseAdapter {
                                                                         JSONObject jsonResponse = new JSONObject(response);
                                                                         boolean success = jsonResponse.getBoolean("success");
                                                                         if (success) {
-
+                                                                            FragmentTransaction ft = (parent.getFragmentManager()).beginTransaction();
+                                                                            ft.detach(parent)
+                                                                                    .attach(parent)
+                                                                                    .commit();
                                                                         }
                                                                     } catch (Exception e) {
                                                                         e.printStackTrace();
@@ -118,10 +121,7 @@ public class PTListAdapter extends BaseAdapter {
                                                             PTNumUpdateRequest ptNumUpdateRequest = new PTNumUpdateRequest(UserMainActivity.userID, ReservationFragment.userPT - 1, responseListenerOfPTNum);
                                                             RequestQueue queue = Volley.newRequestQueue(parent.getActivity());
                                                             queue.add(ptNumUpdateRequest);
-                                                            FragmentTransaction ft = (parent.getFragmentManager()).beginTransaction();
-                                                            ft.detach(parent)
-                                                                    .attach(parent)
-                                                                    .commit();
+
                                                         }
                                                     })
                                                     .create();

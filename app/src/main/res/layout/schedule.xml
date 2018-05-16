@@ -12,7 +12,7 @@
         android:layout_marginRight="13dp"
         android:background="@color/colorPrimary"
         android:gravity="center"
-        android:text="삭제"
+        android:text="취소"
         android:textColor="#ffffff"
         android:textSize="18dp" />
 

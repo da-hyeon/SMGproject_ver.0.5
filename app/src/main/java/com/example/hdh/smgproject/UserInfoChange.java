@@ -139,18 +139,6 @@ public class UserInfoChange extends AppCompatActivity {
                 }
 
 
-//                if(adminCheck) {
-//                    if ( userPTNum.equals("") ) {
-//                        AlertDialog.Builder builder = new AlertDialog.Builder(UserInfoChange.this);
-//                        builder.setMessage("PTcount에 정보를 입력해주세요.")
-//                                .setNegativeButton("확인", null)
-//                                .create();
-//                        builder.show();
-//                        return;
-//                    }
-//                }
-
-
                 //응답받기
                 Response.Listener<String> responseListener = new Response.Listener<String>() {
                     @Override

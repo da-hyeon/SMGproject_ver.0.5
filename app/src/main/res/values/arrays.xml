@@ -6,30 +6,30 @@
     </string-array>
 
     <string-array name="month">
-        <item>1월</item>
-        <item>2월</item>
-        <item>3월</item>
-        <item>4월</item>
-        <item>5월</item>
-        <item>6월</item>
-        <item>7월</item>
-        <item>8월</item>
-        <item>9월</item>
+        <item>01월</item>
+        <item>02월</item>
+        <item>03월</item>
+        <item>04월</item>
+        <item>05월</item>
+        <item>06월</item>
+        <item>07월</item>
+        <item>08월</item>
+        <item>09월</item>
         <item>10월</item>
         <item>11월</item>
         <item>12월</item>
     </string-array>
 
     <string-array name="day">
-        <item>1일</item>
-        <item>2일</item>
-        <item>3일</item>
-        <item>4일</item>
-        <item>5일</item>
-        <item>6일</item>
-        <item>7일</item>
-        <item>8일</item>
-        <item>9일</item>
+        <item>01일</item>
+        <item>02일</item>
+        <item>03일</item>
+        <item>04일</item>
+        <item>05일</item>
+        <item>06일</item>
+        <item>07일</item>
+        <item>08일</item>
+        <item>09일</item>
         <item>10일</item>
         <item>11일</item>
         <item>12일</item>

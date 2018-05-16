@@ -49,6 +49,7 @@ public class ScheduleFragment extends Fragment {
     private SchedulePTListAdapter adapter;
     private List<PT> ptList;
     static int userPT = 0;
+    public DateUtil dateUtil;
 
     @Override
     public void onActivityCreated(Bundle b){
