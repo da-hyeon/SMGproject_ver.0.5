@@ -26,7 +26,8 @@ import java.net.URLEncoder;
 
 public class MyinfoFragment extends Fragment {
 
-    public String userID, userPassword, userName, userEmail, userGender, userHeight, userWeight, userAge;
+    public String userID, userPassword, userEmail, userGender, userHeight, userWeight, userAge;
+    static String userName;
     static public int userPT;
 
     public MyinfoFragment() {

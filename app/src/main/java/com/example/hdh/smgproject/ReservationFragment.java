@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -148,6 +149,7 @@ public class ReservationFragment extends Fragment {
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(getActivity(), "조회되었습니다", Toast.LENGTH_SHORT).show();
                 new BackGroundTask().execute();
             }
         });
@@ -273,8 +275,6 @@ public class ReservationFragment extends Fragment {
 
                     count++;
                 }
-
-
 
                 if(count == 0){
                     AlertDialog.Builder builder = new AlertDialog.Builder(ReservationFragment.this.getActivity());
