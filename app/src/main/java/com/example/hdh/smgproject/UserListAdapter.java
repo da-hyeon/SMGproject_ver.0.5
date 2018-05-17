@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
+import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -33,7 +34,7 @@ public class UserListAdapter extends BaseAdapter {
 
     UserInfoChange userInfoChange = new UserInfoChange();
 
-    public UserListAdapter(Context context , List<User> userList , Activity parentActivity , List<User> saveList){
+    public UserListAdapter(Context context, List<User> userList, Activity parentActivity, List<User> saveList) {
         this.context = context;
         this.userList = userList;
         this.parentActivity = parentActivity;
@@ -83,9 +84,9 @@ public class UserListAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 userInfoChange.adminCheck = true;
-                Intent intent = new Intent(parentActivity , UserInfoChange.class);
+                Intent intent = new Intent(parentActivity, UserInfoChange.class);
 
-                intent.putExtra("userID" , userList.get(i).getUserID());
+                intent.putExtra("userID", userList.get(i).getUserID());
                 intent.putExtra("userPassword", userList.get(i).getUserPassword());
                 intent.putExtra("userName", userList.get(i).getUserName());
                 intent.putExtra("userEmail", userList.get(i).getUserEmail());
@@ -103,45 +104,47 @@ public class UserListAdapter extends BaseAdapter {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Response.Listener<String> responseListener = new Response.Listener<String>(){
-
+                AlertDialog.Builder builder = new AlertDialog.Builder(parentActivity);
+                builder.setTitle(Html.fromHtml("<strong><font color=\"#ff0000\"> " + "주의"));
+                builder.setMessage(Html.fromHtml("</font></strong><br>정말로 삭제하시겠습니까?"));
+                builder.setNegativeButton("예", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            boolean success = jsonObject.getBoolean("success");
-                            if (success) {
-                                AlertDialog.Builder builder = new AlertDialog.Builder(parentActivity);
-                                builder.setTitle("주의!");
-                                builder.setMessage("정말로 삭제하시겠습니까?");
-                                builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        Response.Listener<String> responseListener = new Response.Listener<String>() {
+
+                            @Override
+                            public void onResponse(String response) {
+                                try {
+                                    JSONObject jsonObject = new JSONObject(response);
+                                    boolean success = jsonObject.getBoolean("success");
+                                    if (success) {
+
+
                                         userList.remove(i);
 
-                                        for(int i = 0; i < saveList.size(); i++){
-                                            if(saveList.get(i).getUserID().equals(userID.getText().toString()))
-                                            {
+                                        for (int i = 0; i < saveList.size(); i++) {
+                                            if (saveList.get(i).getUserID().equals(userID.getText().toString())) {
                                                 saveList.remove(i);
                                                 break;
                                             }
                                         }
                                         notifyDataSetChanged();
                                     }
-                                });
-
-                                builder.setNegativeButton("아니오" , null);
-                                builder.create();
-                                builder.show();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
                             }
-                        } catch (Exception e){
-                            e.printStackTrace();
-                        }
+                        };
+                        DeleteRequest deleteRequest = new DeleteRequest(userID.getText().toString(), responseListener);
+                        RequestQueue queue = Volley.newRequestQueue(parentActivity);
+                        queue.add(deleteRequest);
                     }
-                };
-                DeleteRequest deleteRequest = new DeleteRequest(userID.getText().toString(), responseListener);
-                RequestQueue queue = Volley.newRequestQueue(parentActivity);
-                queue.add(deleteRequest);
+                });
+
+                builder.setPositiveButton("아니오", null);
+                builder.create();
+                builder.show();
             }
         });
         return v;

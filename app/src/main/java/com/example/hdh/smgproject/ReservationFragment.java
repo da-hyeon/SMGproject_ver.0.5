@@ -26,8 +26,11 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 
 /**
@@ -44,7 +47,9 @@ public class ReservationFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-
+    public String year;
+    public String Month;
+    public String Day;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -140,8 +145,7 @@ public class ReservationFragment extends Fragment {
         ptListAdapter = new PTListAdapter(getContext().getApplicationContext(), ptList , this);
         ptListView.setAdapter(ptListAdapter);
 
-        new BackGroundTask().execute();
-        new BackGroundTaskForPTnum().execute();
+
 
         Button searchButton = (Button) getView().findViewById(R.id.searchButton);
 
@@ -153,6 +157,14 @@ public class ReservationFragment extends Fragment {
                 new BackGroundTask().execute();
             }
         });
+
+
+        //yearSpinner.setSelection(Integer.parseInt(getDateString().substring(0,4)) - 2018);
+        //monthSpinner.setSelection(Integer.parseInt(getDateString().substring(5,7)) - 1);
+        //daySpinner.setSelection(Integer.parseInt(getDateString().substring(8,10)) - 1);
+
+        new BackGroundTask().execute();
+        new BackGroundTaskForPTnum().execute();
     }
 
 
@@ -198,7 +210,7 @@ public class ReservationFragment extends Fragment {
 
 
     class BackGroundTask extends AsyncTask<Void, Void, String> {
-        String target , target1;
+        String target ;
 
         @Override
         protected void onPreExecute() {
@@ -209,6 +221,11 @@ public class ReservationFragment extends Fragment {
                         "&ptDay=" + URLEncoder.encode(daySpinner.getSelectedItem().toString(), "UTF-8") +
                         "&ptTrainer=" + URLEncoder.encode(trainerSpinner.getSelectedItem().toString(), "UTF-8") +
                         "&ptTime=" + URLEncoder.encode(timeSpinner.getSelectedItem().toString(), "UTF-8");
+
+                yearSpinner.setSelection(Integer.parseInt(getDateString().substring(0,4)) - 2018);
+                monthSpinner.setSelection(Integer.parseInt(getDateString().substring(5,7)) - 1);
+                daySpinner.setSelection(Integer.parseInt(getDateString().substring(8,10)) - 1);
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -246,7 +263,6 @@ public class ReservationFragment extends Fragment {
         public void onPostExecute(String result) {
             try {
 
-
                 ptList.clear();
 
                 JSONObject jsonObject = new JSONObject(result);
@@ -258,7 +274,6 @@ public class ReservationFragment extends Fragment {
                 String ptDay;
                 String ptTrainer;
                 String ptTime;
-                UserMainActivity userMainActivity = new UserMainActivity();
 
                 while (count < jsonArray.length()) {
                     JSONObject object = jsonArray.getJSONObject(count);
@@ -283,6 +298,8 @@ public class ReservationFragment extends Fragment {
                             .create();
                     builder.show();
                 }
+
+
                 ptListAdapter.notifyDataSetChanged();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -353,5 +370,14 @@ public class ReservationFragment extends Fragment {
                 e.printStackTrace();
             }
         }
+    }
+
+    public String getDateString() {
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd일", Locale.KOREA);
+        String str_date = df.format(new Date());
+        year = str_date.substring(0 , 4);
+        Month = str_date.substring(5, 7);
+        Day = str_date.substring(9 , 11 );
+        return str_date;
     }
 }

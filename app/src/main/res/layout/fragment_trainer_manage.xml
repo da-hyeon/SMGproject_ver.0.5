@@ -1,13 +1,64 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.hdh.smgproject.TrainerManageFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="트레이너 회원 관리" />
+        android:orientation="vertical">
 
-</FrameLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="225dp"
+            android:background="@color/colorPrimary"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="125dp"
+                android:layout_height="125dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/logo" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:text="마이페이지"
+                android:textColor="#ffffff"
+                android:textSize="25dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="헬스장 이름 들어갈 부분"
+                android:textColor="#ffffff"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <ListView
+                android:id="@+id/ptListView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="#ffffff"
+                android:dividerHeight="10dp"
+                android:padding="5dp"></ListView>
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

@@ -70,8 +70,6 @@ public class MyinfoFragment extends Fragment {
                         .commit();
             }
         });
-
-
         return v;
     }
 

@@ -84,7 +84,7 @@ public class PTListAdapter extends BaseAdapter {
             ptIDText.setText("ptID : " + ptList.get(i).getPtID());
             //getItem(i)
         } else {
-            ptIDText.setText("날짜가 지났습니다.");
+            ptIDText.setText("기간 만료");
         }
 
 
@@ -102,23 +102,22 @@ public class PTListAdapter extends BaseAdapter {
                         ptList.get(i).getPtTime().substring(0, 2) + "시 " +
                         ptList.get(i).getPtTime().substring(3, 5) + "분";
 
-                if(!DateUtil.compareDate(getDateString(), ptDate)) {
+                if (!DateUtil.compareDate(getDateString(), ptDate)) {
                     if (ReservationFragment.userPT > 0) {
-
-                        Response.Listener<String> responseListener = new Response.Listener<String>() {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(parent.getActivity());
+                        builder.setTitle("PT횟수가 차감됩니다.");
+                        builder.setMessage("정말로 신청하시겠습니까?");
+                        builder.setNegativeButton("예", new DialogInterface.OnClickListener() {
                             @Override
-                            public void onResponse(String response) {
-                                try {
-                                    JSONObject jsonResponse = new JSONObject(response);
-                                    boolean success = jsonResponse.getBoolean("success");
-                                    if (success) {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Response.Listener<String> responseListener = new Response.Listener<String>() {
+                                    @Override
+                                    public void onResponse(String response) {
+                                        try {
+                                            JSONObject jsonResponse = new JSONObject(response);
+                                            boolean success = jsonResponse.getBoolean("success");
+                                            if (success) {
 
-                                        AlertDialog.Builder builder = new AlertDialog.Builder(parent.getActivity());
-                                        builder.setTitle("PT횟수가 차감됩니다.");
-                                        builder.setMessage("정말로 신청하시겠습니까?");
-                                        builder.setNegativeButton("예", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
                                                 AlertDialog.Builder builder = new AlertDialog.Builder(parent.getActivity());
                                                 AlertDialog dialog1 = builder.setMessage("PT가 신청되었습니다.")
                                                         .setPositiveButton("확인", new DialogInterface.OnClickListener() {
@@ -143,7 +142,8 @@ public class PTListAdapter extends BaseAdapter {
                                                                         }
                                                                     }
                                                                 };
-                                                                PTNumUpdateRequest ptNumUpdateRequest = new PTNumUpdateRequest(UserMainActivity.userID, ReservationFragment.userPT - 1, responseListenerOfPTNum);
+                                                                int ptnum = ReservationFragment.userPT - 1;
+                                                                PTNumUpdateRequest ptNumUpdateRequest = new PTNumUpdateRequest(UserMainActivity.userID, ptnum, responseListenerOfPTNum);
                                                                 RequestQueue queue = Volley.newRequestQueue(parent.getActivity());
                                                                 queue.add(ptNumUpdateRequest);
 
@@ -151,28 +151,28 @@ public class PTListAdapter extends BaseAdapter {
                                                         })
                                                         .create();
                                                 dialog1.show();
+                                            } else {
+                                                AlertDialog.Builder builder = new AlertDialog.Builder(parent.getActivity());
+                                                AlertDialog dialog = builder.setMessage("PT신청에 실패하였습니다.")
+                                                        .setNegativeButton("확인", null)
+                                                        .create();
+                                                dialog.show();
+
                                             }
-                                        });
-                                        builder.setPositiveButton("아니오", null);
-                                        builder.create();
-                                        builder.show();
-                                    } else {
-                                        AlertDialog.Builder builder = new AlertDialog.Builder(parent.getActivity());
-                                        AlertDialog dialog = builder.setMessage("PT신청에 실패하였습니다.")
-                                                .setNegativeButton("확인", null)
-                                                .create();
-                                        dialog.show();
-
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
                                     }
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-
+                                };
+                                PTAddRequest ptAddRequest = new PTAddRequest(UserMainActivity.userID, ptList.get(i).getPtID() + "", responseListener);
+                                RequestQueue queue = Volley.newRequestQueue(parent.getActivity());
+                                queue.add(ptAddRequest);
                             }
-                        };
-                        PTAddRequest ptAddRequest = new PTAddRequest(userID, ptList.get(i).getPtID() + "", responseListener);
-                        RequestQueue queue = Volley.newRequestQueue(parent.getActivity());
-                        queue.add(ptAddRequest);
+                        });
+                        builder.setPositiveButton("아니오", null);
+                        builder.create();
+                        builder.show();
+
                     } else {
                         AlertDialog.Builder builder = new AlertDialog.Builder(parent.getActivity());
                         AlertDialog dialog = builder.setMessage("PT횟수가 부족합니다.")
@@ -180,16 +180,15 @@ public class PTListAdapter extends BaseAdapter {
                                 .create();
                         dialog.show();
                     }
-                }else {
+                } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(parent.getActivity());
-                    AlertDialog dialog = builder.setMessage("날짜가 지났습니다.")
+                    AlertDialog dialog = builder.setMessage("기간 만료")
                             .setNegativeButton("확인", null)
                             .create();
                     dialog.show();
                 }
             }
         });
-
         return v;
     }
 
