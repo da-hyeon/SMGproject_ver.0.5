@@ -25,7 +25,7 @@ public class User {
         this.userPT = userPT;
     }
 
-    public User(String userID , String userName, String userEmail , String userGender, String userHeight,String userWeight,String userAge){
+    public User(String userID , String userName, String userEmail , String userGender, String userHeight,String userWeight, String userAge){
         this.userID = userID;
         this.userName = userName;
         this.userEmail = userEmail;

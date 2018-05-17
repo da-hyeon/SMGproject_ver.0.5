@@ -198,7 +198,12 @@ public class TrainerMainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+            // 로그아웃 시 모든 스택을 비운다.
+            if (id == R.id.action_settings) {
+                Intent intent=new Intent(this,LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+            }
         }
 
         return super.onOptionsItemSelected(item);

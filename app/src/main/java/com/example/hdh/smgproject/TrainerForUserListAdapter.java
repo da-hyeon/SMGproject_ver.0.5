@@ -33,11 +33,10 @@ public class TrainerForUserListAdapter extends BaseAdapter {
 
     public String ptDate;
 
-    public TrainerForUserListAdapter(Context context , List<User> userList , Activity parentActivity , List<User> saveList){
+    public TrainerForUserListAdapter(Context context , List<User> userList , Activity parentActivity ){
         this.context = context;
         this.userList = userList;
         this.parentActivity = parentActivity;
-        this.saveList = saveList;
     }
 
     //현재 사용자의 개수
@@ -62,16 +61,20 @@ public class TrainerForUserListAdapter extends BaseAdapter {
     public View getView(final int i, View convertView, ViewGroup viewGroup) {
         View v = View.inflate(context, R.layout.trainer_userlist, null);
 
-        final TextView userID = (TextView) v.findViewById(R.id.userID);
-        final TextView userPassword = (TextView) v.findViewById(R.id.userPassword);
-        final TextView userName = (TextView) v.findViewById(R.id.userName);
-        final TextView userGender = (TextView) v.findViewById(R.id.userGender);
-        final TextView userAge = (TextView) v.findViewById(R.id.userAge);
+        final TextView userID = (TextView) v.findViewById(R.id.trainerForuserID);
+        final TextView userName = (TextView) v.findViewById(R.id.trainerForuserName);
+        final TextView userGender = (TextView) v.findViewById(R.id.trainerForuserGender);
+        final TextView userEmail = (TextView) v.findViewById(R.id.trainerForuserEmail);
+        final TextView userHeight = (TextView) v.findViewById(R.id.trainerForuserHeight);
+        final TextView userWeight = (TextView) v.findViewById(R.id.trainerForuserWeight);
+        final TextView userAge = (TextView) v.findViewById(R.id.trainerForuserAge);
 
         userID.setText(userList.get(i).getUserID());
-        userPassword.setText(userList.get(i).getUserPassword());
         userName.setText(userList.get(i).getUserName());
         userGender.setText(userList.get(i).getUserGender());
+        userEmail.setText(userList.get(i).getUserEmail());
+        userHeight.setText(userList.get(i).getUserHeight());
+        userWeight.setText(userList.get(i).getUserWeight());
         userAge.setText(userList.get(i).getUserAge());
 
         //특정유저의 아이디값을 반환

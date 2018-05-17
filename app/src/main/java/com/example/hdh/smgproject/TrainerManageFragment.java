@@ -18,6 +18,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.List;
 
 //회원관리
@@ -30,28 +31,46 @@ public class TrainerManageFragment extends Fragment {
     private ListView listView;
     private TrainerForUserListAdapter adapter;
     private List<User> userList;
-    private List<User> saveList;
 
     public TrainerManageFragment() {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_trainer_manage, container, false);
+        View v =  inflater.inflate(R.layout.fragment_trainer_manage, container, false);
+
+        return v;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle b) {
+        super.onActivityCreated(b);
+
+        //리스트뷰 초기화
+        listView = (ListView) getView().findViewById(R.id.TrainerForUserListView);
+
+        userList = new ArrayList<User>();
+        adapter = new TrainerForUserListAdapter(getContext().getApplicationContext(), userList , getActivity());
+        listView.setAdapter(adapter);
+
+//        User user = new User("asd", "asd", "asd", "asd", "asd", "asd", "asd");
+//        userList.add(user);
+
+        new BackGroundTaskForuserInfo().execute();
     }
 
 
-    class BackGroundTask extends AsyncTask<Void, Void, String> {
+
+    class BackGroundTaskForuserInfo extends AsyncTask<Void, Void, String> {
         String target;
 
         @Override
         protected void onPreExecute() {
             try {
-                target = "http://kjg123kg.cafe24.com/SchedulePTList_SYG.php?userID=" + URLEncoder.encode(UserMainActivity.userID, "UTF-8");
+                target = "http://kjg123kg.cafe24.com/TrainerForUserManeger_SYG.php?trainerID=" + URLEncoder.encode(TrainerMainActivity.userID, "UTF-8");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -77,7 +96,6 @@ public class TrainerManageFragment extends Fragment {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
             return null;
         }
 
@@ -93,23 +111,19 @@ public class TrainerManageFragment extends Fragment {
                 JSONArray jsonArray = jsonObject.getJSONArray("response");
 
                 int count = 0;
-                String userID , userPassword , userName, userEmail ,userGender, userHeight, userWeight, userAge ;
-                int userPT;
-
+                String userID, userName, userEmail ,userGender, userHeight, userWeight, userAge ;
 
 
                 while (count < jsonArray.length()) {
                     JSONObject object = jsonArray.getJSONObject(count);
 
                     userID = object.getString("userID");
-                    userPassword = object.getString("userPassword");
                     userName = object.getString("userName");
                     userEmail = object.getString("userEmail");
                     userGender = object.getString("userGender");
-                    userHeight = object.getString("userHeight");
-                    userWeight = object.getString("userWeight");
+                    userHeight = object.getString("userHeight" )+ "cm";
+                    userWeight = object.getString("userWeight" )+ "kg";
                     userAge = object.getString("userAge") + "세";
-                    userPT = object.getInt("userPT");
 
                     if (userName.equals("")) {
                         userName = "정보없음";
@@ -121,10 +135,9 @@ public class TrainerManageFragment extends Fragment {
                         userAge = "정보없음";
                     }
 
-                    User user = new User(userID, userPassword, userName, userEmail, userGender, userHeight, userWeight, userAge, userPT);
+                    User user = new User(userID, userName, userEmail, userGender, userHeight, userWeight, userAge);
                     if (!userID.contains("admin")) {
                         userList.add(user);
-                        saveList.add(user);
                     }
                     count++;
                 }

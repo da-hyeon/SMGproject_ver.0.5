@@ -13,6 +13,7 @@ import java.util.Map;
 
 public class DeleteRequest extends StringRequest {
     final static private String URL = "http://kjg123kg.cafe24.com/UserDelete_SYG.php";
+    final static private String trainerPTListDeleteURL = "http://kjg123kg.cafe24.com/TrainersPTDelete_SYG.php";
 
     private Map<String , String> parameters;
 
@@ -21,6 +22,15 @@ public class DeleteRequest extends StringRequest {
         parameters = new HashMap<>();
         parameters.put("userID" , userID);
     }
+
+    public DeleteRequest(String trainerID , int ptID , Response.Listener<String> listener){
+        super(Request.Method.POST , trainerPTListDeleteURL , listener , null);
+        parameters = new HashMap<>();
+        parameters.put("trainerID" , trainerID);
+        parameters.put("ptID" , String.valueOf(ptID));
+    }
+
+
     @Override
     public Map<String , String> getParams() {
         return parameters;

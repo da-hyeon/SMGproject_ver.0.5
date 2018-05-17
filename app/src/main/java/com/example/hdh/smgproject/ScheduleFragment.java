@@ -172,6 +172,7 @@ public class ScheduleFragment extends Fragment {
                 while ((temp = bufferedReader.readLine()) != null) {
                     stringBuilder.append(temp + "\n");
                 }
+
                 bufferedReader.close();
                 inputStream.close();
                 httpURLConnection.disconnect();
