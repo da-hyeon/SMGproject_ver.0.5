@@ -8,6 +8,8 @@ import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
@@ -26,6 +28,7 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,12 +45,20 @@ import java.util.List;
 
 public class UserMainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    public  Bundle bundle;
+    public Bundle bundle;
     public static String userID;
     public Intent intent;
     public String getExtra;
     public static boolean userIDCheck = true;
 
+    //뷰페이저를 위한 생성
+    ViewPager viewPager;
+    UserSwipeAdapter swipeAdapter;
+
+    //도트를 위한 생성
+    LinearLayout sliderDotspanel;
+    int dotCounts;
+    ImageView[] dots;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,14 +69,63 @@ public class UserMainActivity extends AppCompatActivity
         //현재 스마트폰의 화면을 세로로고정
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
+        //뷰페이저
+        viewPager = findViewById(R.id.userViewPager);
+        viewPager.setOffscreenPageLimit(1);
+        swipeAdapter = new UserSwipeAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(swipeAdapter);
+        viewPager.setCurrentItem(0);
+
+        //도트
+
+        sliderDotspanel = (LinearLayout) findViewById(R.id.SliderDots);
+        dotCounts = swipeAdapter.getCount();
+        dots = new ImageView[dotCounts];
+
+        for (int i = 0; i < dotCounts; i++) {
+
+            dots[i] = new ImageView(this);
+            dots[i].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.nonactive_dot));
+
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+            params.setMargins(8, 0, 8, 0);
+
+            sliderDotspanel.addView(dots[i], params);
+
+        }
+
+        dots[0].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.active_dot));
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+                for (int i = 0; i < dotCounts; i++) {
+                    dots[i].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.nonactive_dot));
+                }
+
+                dots[position].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.active_dot));
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
         intent = getIntent();
 
         //로그인화면을 통해 인텐트 되면 true , 회원정보변경을 통해서 인텐트되면 false
-        if(userIDCheck) {
+        if (userIDCheck) {
             bundle = getIntent().getExtras(); // 로그인 액티비티로 부터 유저 아이디 가져오기
             userID = bundle.getString("keyUserID");
             getExtra = intent.getStringExtra("userList");
-        } else{
+        } else {
             userID = intent.getStringExtra("userID");
             getExtra = intent.getStringExtra("userListofChange");
         }
@@ -112,13 +172,12 @@ public class UserMainActivity extends AppCompatActivity
 
     private long lastTimeBackPressed;
 
-
     @Override
     public void onBackPressed() {
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-        LinearLayout l = (LinearLayout)findViewById(R.id.linearLayout);
+        RelativeLayout l = (RelativeLayout) findViewById(R.id.relativelayout);
         l.setVisibility(View.VISIBLE);
 
 
@@ -128,15 +187,15 @@ public class UserMainActivity extends AppCompatActivity
             super.onBackPressed();
         }
 
-        if(System.currentTimeMillis() - lastTimeBackPressed < 1500)
-        {
+        if (System.currentTimeMillis() - lastTimeBackPressed < 1500) {
             finish();
             return;
         }
-        Toast.makeText(this , "'뒤로' 버튼을 한 번 더 눌러 종료합니다.", Toast.LENGTH_SHORT);
+        Toast.makeText(this, "'뒤로' 버튼을 한 번 더 눌러 종료합니다.", Toast.LENGTH_SHORT);
         lastTimeBackPressed = System.currentTimeMillis();
 
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -170,35 +229,35 @@ public class UserMainActivity extends AppCompatActivity
 
         //내정보
         if (id == R.id.nav_myinfo) {
-            LinearLayout l = (LinearLayout)findViewById(R.id.linearLayout);
+            RelativeLayout l = (RelativeLayout) findViewById(R.id.relativelayout);
             l.setVisibility(View.GONE);
             manager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             manager.beginTransaction().replace(R.id.content_user_main, new MyinfoFragment()).addToBackStack(null).commit();
         }
         //예약하기
         else if (id == R.id.nav_reservation) {
-            LinearLayout l = (LinearLayout)findViewById(R.id.linearLayout);
+            RelativeLayout l = (RelativeLayout) findViewById(R.id.relativelayout);
             l.setVisibility(View.GONE);
             manager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             manager.beginTransaction().replace(R.id.content_user_main, new ReservationFragment()).addToBackStack(null).commit();
         }
         //일정확인
         else if (id == R.id.nav_schdulefix) {
-            LinearLayout l = (LinearLayout)findViewById(R.id.linearLayout);
+            RelativeLayout l = (RelativeLayout) findViewById(R.id.relativelayout);
             l.setVisibility(View.GONE);
             manager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             manager.beginTransaction().replace(R.id.content_user_main, new ScheduleFragment()).addToBackStack(null).commit();
         }
         //피드백
         else if (id == R.id.nav_feedback) {
-            LinearLayout l = (LinearLayout)findViewById(R.id.linearLayout);
+            RelativeLayout l = (RelativeLayout) findViewById(R.id.relativelayout);
             l.setVisibility(View.GONE);
             manager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             manager.beginTransaction().replace(R.id.content_user_main, new FeedbackFragment()).addToBackStack(null).commit();
         }
         //추천운동
         else if (id == R.id.Recommend) {
-            LinearLayout l = (LinearLayout)findViewById(R.id.linearLayout);
+            RelativeLayout l = (RelativeLayout) findViewById(R.id.relativelayout);
             l.setVisibility(View.GONE);
             manager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             manager.beginTransaction().replace(R.id.content_user_main, new RecommendFragment()).addToBackStack(null).commit();

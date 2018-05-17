@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,7 +15,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -152,7 +156,7 @@ public class UserInfoChange extends AppCompatActivity {
                                         .setPositiveButton("확인", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
-                                            new BackGroundTask().execute();
+                                                new BackGroundTask().execute();
                                             }
                                         })
                                         .create();
@@ -183,6 +187,8 @@ public class UserInfoChange extends AppCompatActivity {
             }
         });
     }
+
+
 
     class BackGroundTask extends AsyncTask<Void, Void, String> {
         String target;
@@ -239,5 +245,7 @@ public class UserInfoChange extends AppCompatActivity {
                 finish();
             }
         }
+
+
     }
 }

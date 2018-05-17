@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -17,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +36,15 @@ public class TrainerMainActivity extends AppCompatActivity
     public static boolean userIDCheck = true;
     public static String tempguestID, tempguestPassword, tempguestName, tempguestEmail, tempguestGender, tempguestHeight, tempguestWeight, tempguestAge, tempguestPT;
 
+    //뷰페이저를 위한 생성
+    ViewPager viewPager;
+    TrainerSwipeAdapter swipeAdapter;
+
+    //도트를 위한 생성
+    LinearLayout sliderDotspanel;
+    int dotCounts;
+    ImageView[] dots;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +53,55 @@ public class TrainerMainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        //뷰페이저
+        viewPager = findViewById(R.id.trainerViewPager);
+        viewPager.setOffscreenPageLimit(1);
+        swipeAdapter = new TrainerSwipeAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(swipeAdapter);
+        viewPager.setCurrentItem(0);
+
+        //도트
+
+        sliderDotspanel = (LinearLayout) findViewById(R.id.SliderDots);
+        dotCounts = swipeAdapter.getCount();
+        dots = new ImageView[dotCounts];
+
+        for(int i=0; i < dotCounts; i++) {
+
+            dots[i] = new ImageView(this);
+            dots[i].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.nonactive_dot));
+
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+            params.setMargins(8, 0, 8, 0);
+
+            sliderDotspanel.addView(dots[i], params);
+
+        }
+
+        dots[0].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.active_dot));
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+                for(int i=0; i < dotCounts; i++) {
+                    dots[i].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.nonactive_dot));
+                }
+
+                dots[position].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.active_dot));
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         intent = getIntent();
 
@@ -101,7 +162,7 @@ public class TrainerMainActivity extends AppCompatActivity
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-        LinearLayout l = (LinearLayout)findViewById(R.id.linearLayout);
+        RelativeLayout l = (RelativeLayout)findViewById(R.id.relativelayout);
         l.setVisibility(View.VISIBLE);
 
 
@@ -153,22 +214,22 @@ public class TrainerMainActivity extends AppCompatActivity
 
 
         if (id == R.id.nav_trainerManage) {
-            LinearLayout l = (LinearLayout)findViewById(R.id.linearLayout);
+            RelativeLayout l = (RelativeLayout) findViewById(R.id.relativelayout);
             l.setVisibility(View.GONE);
             manager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             manager.beginTransaction().replace(R.id.content_trainer_main, new TrainerManageFragment()).addToBackStack(null).commit();
         } else if (id == R.id.nav_trainerSchedule) {
-            LinearLayout l = (LinearLayout)findViewById(R.id.linearLayout);
+            RelativeLayout l = (RelativeLayout)findViewById(R.id.relativelayout);
             l.setVisibility(View.GONE);
             manager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             manager.beginTransaction().replace(R.id.content_trainer_main, new TrainerScheduleFragment()).addToBackStack(null).commit();
         } else if (id == R.id.nav_trainerManagePT) {
-            LinearLayout l = (LinearLayout)findViewById(R.id.linearLayout);
+            RelativeLayout l = (RelativeLayout)findViewById(R.id.relativelayout);
             l.setVisibility(View.GONE);
             manager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             manager.beginTransaction().replace(R.id.content_trainer_main, new TrainerManagePTFragment()).addToBackStack(null).commit();
         } else if (id == R.id.nav_trainerEnrollPT) {
-            LinearLayout l = (LinearLayout)findViewById(R.id.linearLayout);
+            RelativeLayout l = (RelativeLayout)findViewById(R.id.relativelayout);
             l.setVisibility(View.GONE);
             manager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             manager.beginTransaction().replace(R.id.content_trainer_main, new TrainerEnrollPTFragment()).addToBackStack(null).commit();

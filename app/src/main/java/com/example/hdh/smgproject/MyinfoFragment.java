@@ -180,7 +180,6 @@ public class MyinfoFragment extends Fragment {
                         intent.putExtra("userWeight", userWeight);
                         intent.putExtra("userAge", userAge);
                         getActivity().startActivity(intent);
-                        getActivity().finish();
                     }
                 });
             } catch (Exception e) {

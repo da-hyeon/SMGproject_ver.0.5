@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content_user_main"
@@ -9,19 +10,33 @@
     tools:context=".UserMainActivity"
     tools:showIn="@layout/app_bar_user_main">
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-        <TextView
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/relativelayout">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="270dp"
+            android:background="@drawable/main"/>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/userViewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </android.support.v4.view.ViewPager>
+
+        <LinearLayout
+            android:id="@+id/SliderDots"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:text="유저메인액티비티"
-            android:textSize="25dp"
-            android:textStyle="bold" />
+            android:layout_marginTop="500dp"
+            android:gravity="center_vertical|center_horizontal"
+            android:orientation="horizontal">
 
-    </LinearLayout>
-</LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>
